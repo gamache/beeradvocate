@@ -4,7 +4,7 @@ require 'open-uri'
 
 require 'beer_advocate/version'
 
-## A handful of utilities for making beer signs based on Beer Advocate data.
+## Quickly-coded utilities for scraping BeerAdvocate.com for beer information.
 module BeerAdvocate
   class << self
 
