@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+require 'beer_advocate'
+require 'json'
+
+if ARGV.count == 0
+  STDERR.puts "Usage: #{$0} name of beer"
+  exit 1
+end
+
+beer_name = ARGV.join(' ')
+
+url = BeerAdvocate.get_url(beer_name)
+
+beer_details = BeerAdvocate.get_beer_details_from_url(url)
+
+puts JSON.pretty_generate(beer_details)
+
+

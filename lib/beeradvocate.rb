@@ -1,0 +1,2 @@
+require 'beer_advocate'
+
