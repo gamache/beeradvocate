@@ -8,23 +8,32 @@ require 'beer_advocate/version'
 module BeerAdvocate
   class << self
 
-    ## Given a beer name, return the URL for the top Beer Advocate beer
-    ## search result.
-    def get_url(beer_name)
-      page = Nokogiri::HTML(open(
-        "http://www.beeradvocate.com/search/?qt=beer&q=" +
+    ## Given a beer name, returns the URL for the top Beer Advocate beer
+    ## search result.  Throws an exception if something goes wrong.
+    def get_url!(beer_name)
+      search_url = "http://www.beeradvocate.com/search/?qt=beer&q=" +
         URI.escape(beer_name)
-      ))
 
-      "http://www.beeradvocate.com" +
-        page.css('ul li a').first.attributes['href'].text
+      page = Nokogiri::HTML(open(search_url))
+
+      href = page.css('ul li a').
+        map {|tag| tag.attributes['href'].text rescue nil}.
+        select {|h| h && h.match(%r{^/beer/profile})}.
+        first
+
+      "http://www.beeradvocate.com" + href
     end
 
+    ## Given a beer name, returns the URL for the top Beer Advocate beer
+    ## search result.  Returns nil upon error.
+    def get_url(beer_name)
+      get_url!(beer_name) rescue nil
+    end
 
-    ## Given a URL for a Beer Advocate beer page, return a hash containing
+    ## Given a URL for a Beer Advocate beer page, returns a hash containing
     ## info about the beer, including `name`, `brewery`, `style`, `abv`,
-    ## and `score`.
-    def get_beer_details_from_url(url)
+    ## and `score`.  Throws an exception if something goes wrong.
+    def get_beer_details_from_url!(url)
       page = Nokogiri::HTML(open(url))
 
       table = page.css('#ba-content table')[1]
@@ -53,6 +62,13 @@ module BeerAdvocate
         abv: beer_abv,
         brewery: beer_brewery
       }
+    end
+
+    ## Given a URL for a Beer Advocate beer page, returns a hash containing
+    ## info about the beer, including `name`, `brewery`, `style`, `abv`,
+    ## and `score`.  Returns nil upon error.
+    def get_beer_details_from_url(url)
+      get_beer_details_from_url!(url) rescue nil
     end
 
   end

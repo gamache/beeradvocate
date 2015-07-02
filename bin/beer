@@ -9,9 +9,15 @@ end
 
 beer_name = ARGV.join(' ')
 
-url = BeerAdvocate.get_url(beer_name)
+unless url = BeerAdvocate.get_url(beer_name)
+  STDERR.puts "Couldn't get url for '#{beer_name}'"
+  exit 2
+end
 
-beer_details = BeerAdvocate.get_beer_details_from_url(url)
+unless beer_details = BeerAdvocate.get_beer_details_from_url(url)
+  STDERR.puts "Couldn't parse beer details for url '#{url}'"
+  exit 3
+end
 
 puts JSON.pretty_generate(beer_details)
 
