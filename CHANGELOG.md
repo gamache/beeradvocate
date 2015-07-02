@@ -1,3 +1,7 @@
+* 0.1.0 (2015-07-02)
+
+  Added bang methods.
+
 * 0.0.2 (2015-07-02)
 
   `get_url` changed to scrape Beer Advocate instead of Google.
