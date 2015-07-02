@@ -1,6 +1,6 @@
 require 'nokogiri'
-require 'mechanize'
 require 'open-uri'
+require 'uri'
 
 require 'beer_advocate/version'
 
@@ -8,25 +8,16 @@ require 'beer_advocate/version'
 module BeerAdvocate
   class << self
 
-    ## Given a beer name, return the URL for the top Google search result for
-    ## `site:beeradvocate.com beer name`.
+    ## Given a beer name, return the URL for the top Beer Advocate beer
+    ## search result.
     def get_url(beer_name)
-      agent = Mechanize.new
-      page = agent.get('http://www.google.com')
-      form = page.form('f')
-      form.q = "site:beeradvocate.com #{beer_name}"
+      page = Nokogiri::HTML(open(
+        "http://www.beeradvocate.com/search/?qt=beer&q=" +
+        URI.escape(beer_name)
+      ))
 
-      results = agent.submit(form, form.buttons.first)
-
-      urls = []
-      results.links.each do |link|
-        if link.href.to_s =~/url.q/
-            str=link.href.to_s
-            strList=str.split(%r{=|&})
-            urls << strList[1]
-        end
-      end
-      urls.select {|url| url.match(/beeradvocate.com/)}.first
+      "http://www.beeradvocate.com" +
+        page.css('ul li a').first.attributes['href'].text
     end
 
 

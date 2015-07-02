@@ -27,7 +27,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.8.7'
 
   s.add_dependency 'nokogiri', '~> 1.6'
-  s.add_dependency 'mechanize', '~> 2.7'
 
   s.add_development_dependency 'rake', '~> 10.0'
   s.add_development_dependency 'minitest', '~> 4.7'
