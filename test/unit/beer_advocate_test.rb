@@ -6,7 +6,7 @@ describe BeerAdvocate do
   describe '.get_url' do
     def assert_beeradvocate_url(name)
       url = BeerAdvocate.get_url(name)
-      assert_match(%r{}, url)
+      assert_match(%r{beeradvocate.com/beer/profile}, url)
     end
 
     it 'gets URLs for common beers' do
