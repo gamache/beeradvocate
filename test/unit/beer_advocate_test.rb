@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'json'
 
 ## Warning: these are live unit tests and are therefore janky and dubious
 
@@ -49,6 +50,24 @@ describe BeerAdvocate do
     it 'throw exceptions from .get_beer_details_from_url! for crap pages' do
       details = BeerAdvocate.get_beer_details_from_url!("SDFASDF") rescue :gah
       assert_equal(:gah, details)
+    end
+
+    it 'returns all correct information' do
+      url = BeerAdvocate.get_url('cambridge porter')
+      details = JSON.parse(JSON.dump(
+        BeerAdvocate.get_beer_details_from_url(url)))
+      correct_details = JSON.parse(<<-EOT)
+        {
+          "name": "Charles River Porter",
+          "score": "89",
+          "style": "American Porter",
+          "abv": "5.90%",
+          "brewery": "Cambridge Brewing Company"
+        }
+      EOT
+      correct_details.keys.each do |k|
+        assert_equal(correct_details[k], details[k], k)
+      end
     end
   end
 end

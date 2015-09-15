@@ -1,3 +1,7 @@
+* 0.1.1 (2015-09-15)
+
+  Repaired broken scraping of beer name.
+
 * 0.1.0 (2015-07-02)
 
   Added bang methods.

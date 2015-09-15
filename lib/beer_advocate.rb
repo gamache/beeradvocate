@@ -38,7 +38,7 @@ module BeerAdvocate
 
       table = page.css('#ba-content table')[1]
 
-      beer_name = table.css('img')[0].attributes['alt'].value
+      beer_name = page.css('div.titleBar h1')[0].children[0].text
 
       beer_score = table.css('.ba-score').text
 
