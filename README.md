@@ -1,5 +1,7 @@
 # beeradvocate
 
+[![Build Status](https://travis-ci.org/gamache/beeradvocate.png?branch=master)](https://travis-ci.org/gamache/beeradvocate)
+
 A BeerAdvocate.com scraper of debatable quality.  Written in Ruby.
 
 ## Installation
